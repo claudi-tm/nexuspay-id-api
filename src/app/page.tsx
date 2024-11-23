@@ -40,7 +40,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Upload Your Documents</h1>
+      <h1 className='text-red-500'>Upload Your Documents</h1>
       <button onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
       <button onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
       <button onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
