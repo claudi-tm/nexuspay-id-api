@@ -9,6 +9,7 @@ const Home = () => {
   const [idBackImage, setIdBackImage] = useState<string | null>(null);
   
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
+  const [facingMode, setFacingMode] = useState<string>('user');
   const webcamRef = useRef<Webcam>(null);
 
   // Capture the current frame from the webcam
@@ -32,12 +33,17 @@ const Home = () => {
     }
   };
 
+  const handleCaptureClick = (type: string) => {
+    setCurrentCapture(type);
+    setFacingMode(type === 'selfie' ? 'user' : 'environment');
+  };
+
   return (
     <div>
       <h1>Upload Your Documents</h1>
-      <button onClick={() => setCurrentCapture('selfie')}>Take Selfie</button>
-      <button onClick={() => setCurrentCapture('id-front')}>Capture ID Front</button>
-      <button onClick={() => setCurrentCapture('id-back')}>Capture ID Back</button>
+      <button onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
+      <button onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
+      <button onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
 
       {/* Webcam Capture Section */}
       {currentCapture && (
@@ -46,8 +52,10 @@ const Home = () => {
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/png"
+            mirrored={facingMode === 'user'}
             width="100%"
             height="100%"
+            videoConstraints={{ facingMode }}
           />
           <button onClick={capture}>Capture</button>
         </div>
