@@ -9,6 +9,20 @@
   }
 }
 
+.webcam-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.rounded-mask {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 300px; /* Adjust the size as needed */
+  height: 300px; /* Adjust the size as needed */
+  margin: 0 auto; /* Center the webcam */
+}
+
 body {
   /* color: var(--foreground);
   background: var(--background); */
