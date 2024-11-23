@@ -47,7 +47,7 @@ const Home = () => {
 
       {/* Webcam Capture Section */}
       {currentCapture && (
-        <div>
+        <div className={`${facingMode === "user" ? "rounded-full" : ""}`}>
           <Webcam
             audio={false}
             ref={webcamRef}
