@@ -51,14 +51,14 @@ const Home = () => {
 
           {currentCapture && (
             <div>
-              <div className={`webcam-container border border-red-600 ${facingMode === "user" ? "rounded-full flex items-center justify-center w-12" : ""}`}>
+              <div className={` border border-red-600 h-52 w-52  ${facingMode === "user" ? "rounded-full flex items-center justify-center " : ""}`}>
                 <Webcam
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/png"
                   mirrored={facingMode === 'user'}
-                  width="100%"
-                  height="100%"
+                  // width="100%"
+                  // height="100%"
                   videoConstraints={{ facingMode }}
                 />
               </div>
