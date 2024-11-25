@@ -69,6 +69,17 @@ const Home = () => {
           )}
         </div>
       </div>
+      <div>
+        <h3>Captured Images:</h3>
+        {userImage && <img src={userImage} alt="User selfie" />}
+        {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
+        {idBackImage && <img src={idBackImage} alt="ID Back" />}
+      </div><div>
+        <h3>Captured Images:</h3>
+        {userImage && <img src={userImage} alt="User selfie" />}
+        {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
+        {idBackImage && <img src={idBackImage} alt="ID Back" />}
+      </div>
 
     </div>
     // <div>
