@@ -2,27 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-.webcam-container {
-  position: relative;
-  /* border-radius: 9999px; */
-  width: 340px;
-  height: 340px;
-}
-
-.rounded-mask {
-  /* border-radius: 100%; */
-  overflow: hidden;
-  
-  margin: 0 auto; /* Center the webcam */
-}
-
 body {
   /* color: var(--foreground);
   background: var(--background); */
