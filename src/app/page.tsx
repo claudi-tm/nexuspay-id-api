@@ -1,13 +1,13 @@
 "use client"
 // pages/index.tsx
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
 const Home = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
   const [idFrontImage, setIdFrontImage] = useState<string | null>(null);
   const [idBackImage, setIdBackImage] = useState<string | null>(null);
-  
+
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<string>('user');
   const webcamRef = useRef<Webcam>(null);
@@ -39,36 +39,55 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1 className='text-red-500'>Upload Your Documents</h1>
-      <button onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
-      <button onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
-      <button onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
-
-      {/* Webcam Capture Section */}
-      {currentCapture && (
-        <div className={`webcam-container ${facingMode === "user" ? "rounded-full overflow-hidden w-72 h-72 mx-auto" : ""}`}>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/png"
-            mirrored={facingMode === 'user'}
-            width="100%"
-            height="100%"
-            videoConstraints={{ facingMode }}
-          />
-          <button onClick={capture}>Capture</button>
-        </div>
-      )}
-
-      {/* Display Captured Images */}
-      <div>
-        <h3>Captured Images:</h3>
-        {userImage && <img src={userImage} alt="User selfie" />}
-        {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-        {idBackImage && <img src={idBackImage} alt="ID Back" />}
+    <div className='m-4'>
+      <h1 className='text-red-500 text-center text-2xl'>Adicione os seus documentos</h1>
+      <div className='flex gap-2'>
+        <button className='border px-1' onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
+        <button className='border px-1' onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
+        <button className='border px-1' onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
       </div>
+      <div className='flex justify-center mt-10'>
+        <div className='border h-52 w-52 rounded-full'>
+
+          {currentCapture && (
+            <div>
+              <div className={`webcam-container border border-red-600 ${facingMode === "user" ? "rounded-full flex items-center justify-center w-12" : ""}`}>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/png"
+                  mirrored={facingMode === 'user'}
+                  width="100%"
+                  height="100%"
+                  videoConstraints={{ facingMode }}
+                />
+              </div>
+              <button onClick={capture}>Capture</button>
+
+            </div>
+
+          )}
+        </div>
+      </div>
+
     </div>
+    // <div>
+    //   <h1 className='text-red-500'>Upload Your Documents</h1>
+    //   <button onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
+    //   <button onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
+    //   <button onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
+
+    //   {/* Webcam Capture Section */}
+
+
+    //   {/* Display Captured Images */}
+    //   <div>
+    //     <h3>Captured Images:</h3>
+    //     {userImage && <img src={userImage} alt="User selfie" />}
+    //     {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
+    //     {idBackImage && <img src={idBackImage} alt="ID Back" />}
+    //   </div>
+    // </div>
   );
 };
 
