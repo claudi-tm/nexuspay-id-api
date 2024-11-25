@@ -47,18 +47,16 @@ const Home = () => {
         <button className='border px-1' onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
       </div>
       <div className='flex justify-center mt-10'>
-        <div className='border h-52 w-52 rounded-full'>
-
-          {currentCapture && (
+      {currentCapture && (
             <div>
-              <div className={` border border-red-600 h-52 w-52  ${facingMode === "user" ? "rounded-full flex items-center justify-center " : ""}`}>
+              <div className={`webcam-container h-52 w-52  ${facingMode === "user" ? "rounded-full flex items-center justify-center" : ""}`}>
                 <Webcam
+                className='h-60 w-52 rounded-2xl webcam-container'
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/png"
                   mirrored={facingMode === 'user'}
-                  // width="100%"
-                  // height="100%"
+                  
                   videoConstraints={{ facingMode }}
                 />
               </div>
@@ -67,7 +65,6 @@ const Home = () => {
             </div>
 
           )}
-        </div>
       </div>
       <div>
         <h3>Captured Images:</h3>
