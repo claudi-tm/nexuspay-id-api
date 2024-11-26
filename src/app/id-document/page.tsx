@@ -1,6 +1,5 @@
 "use client"
 import Button from '@mui/material/Button';
-import Image from 'next/image';
 import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -9,14 +8,12 @@ const DocumentSubmission = () => {
   const [idBackImage, setIdBackImage] = useState<string | null>(null);
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<string>('environment');
-  const [status, setStatus] = useState<string>('none');
   const webcamRef = useRef<Webcam>(null);
 
 
   const resetImage = () => {
     setIdFrontImage(null);
     setIdBackImage(null);
-    setStatus('reset')
   };
 
   const capture = () => {
