@@ -3,12 +3,14 @@
 import Button from '@mui/material/Button';
 import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+import { useRouter } from 'next/navigation';
 
 
 const Home = () => {
+  const router = useRouter();
   const [userImage, setUserImage] = useState<string | null>(null);
-  const [idFrontImage, setIdFrontImage] = useState<string | null>(null);
-  const [idBackImage, setIdBackImage] = useState<string | null>(null);
+  // const [idFrontImage, setIdFrontImage] = useState<string | null>(null);
+  // const [idBackImage, setIdBackImage] = useState<string | null>(null);
 
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<string>('user');
@@ -19,17 +21,7 @@ const Home = () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
-        switch (currentCapture) {
-          case 'selfie':
-            setUserImage(imageSrc);
-            break;
-          case 'id-front':
-            setIdFrontImage(imageSrc);
-            break;
-          case 'id-back':
-            setIdBackImage(imageSrc);
-            break;
-        }
+        setUserImage(imageSrc);
         setCurrentCapture(null); // Reset capture state after capturing
       }
     }
@@ -67,20 +59,31 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className='text-center flex flex-col justify-center'>
-        <h3>Deseja tirar outra foto?</h3>
-        <div className='h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300'>
-          {userImage && <img src={userImage} alt="User selfie" />}
+      {/* {currentCapture && (
+        
+      )} */}
+      {
+        userImage && (
+          <div className='text-center flex flex-col justify-center items-center border gap-4'>
+            <h3>Deseja tirar outra foto?</h3>
+            <div className='h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300'>
+              {userImage && <img src={userImage} alt="User selfie" />}
 
-        </div>
+            </div>
 
-        {/* {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-        {idBackImage && <img src={idBackImage} alt="ID Back" />} */}
-      </div><div>
+            {/* {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
+            {idBackImage && <img src={idBackImage} alt="ID Back" />} */}
+            <Button className='w-full bg-slate-800' variant='contained' onClick={ () => router.push("/id-document") }>Não</Button>
+            {/* lassName='w-full bg-slate-800' variant='contained' onClick={() => router.push('/document-submission')}>Não</Button> */}
+            <Button className='w-full text-slate-800 hover:bg-blue-600' variant='outlined'>Sim</Button>
+          </div>
+
+        )
+      }
+
+      <div>
         <h3>Captured Images:</h3>
         {userImage && <img src={userImage} alt="User selfie" />}
-        {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-        {idBackImage && <img src={idBackImage} alt="ID Back" />}
       </div>
 
     </div>
