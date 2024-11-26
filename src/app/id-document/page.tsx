@@ -1,5 +1,6 @@
 "use client"
 import Button from '@mui/material/Button';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -8,7 +9,15 @@ const DocumentSubmission = () => {
   const [idBackImage, setIdBackImage] = useState<string | null>(null);
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<string>('environment');
+  const [status, setStatus] = useState<string>('none');
   const webcamRef = useRef<Webcam>(null);
+
+
+  const resetImage = () => {
+    setIdFrontImage(null);
+    setIdBackImage(null);
+    setStatus('reset')
+  };
 
   const capture = () => {
     if (webcamRef.current) {
@@ -34,10 +43,16 @@ const DocumentSubmission = () => {
 
   return (
     <div className='m-4'>
-      <h1 className='text-red-500 text-center text-2xl'>Submit Your Documents</h1>
-      <div className='flex gap-2'>
-        <Button className='normal-case' variant='outlined' onClick={() => handleCaptureClick('id-front')}>Capture ID Front</Button>
-        <Button className='normal-case' variant='outlined' onClick={() => handleCaptureClick('id-back')}>Capture ID Back</Button>
+      <h1 className='text-dark-solid-blue text-center text-2xl'>Passo 2: Verificação de documentos (BI)</h1>
+      <div className='flex flex-col gap-2'>
+        {
+          idFrontImage ? (
+            <Button className='normal-case' variant='outlined' onClick={() => handleCaptureClick('id-back')}>Capture ID Back</Button>
+          ) : (
+            <Button className='normal-case' variant='outlined' onClick={() => handleCaptureClick('id-front')}>Foto frontal</Button>
+          )
+        }
+
       </div>
       <div className='flex justify-center mt-10'>
         {currentCapture && (
@@ -56,9 +71,20 @@ const DocumentSubmission = () => {
         )}
       </div>
       <div>
-        <h3>Captured Images:</h3>
-        {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-        {idBackImage && <img src={idBackImage} alt="ID Back" />}
+        {/* <h3>Captured Images:</h3> */}
+        {idFrontImage && idBackImage && (
+          <div className='flex flex-col gap-2'>
+            <h3>Deseja tirar outra foto?</h3>
+            <img src={idFrontImage} alt="ID front" />
+            <img src={idBackImage} alt="ID back" />
+            <div>
+              <Button className='w-full bg-dark-solid-blue' variant='contained'>Não</Button>
+              <Button className='w-full text-dark-solid-blue' onClick={resetImage} variant='outlined'>Sim</Button>
+            </div>
+          </div>
+        ) 
+        }
+
       </div>
     </div>
   );
