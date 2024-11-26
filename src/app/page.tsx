@@ -1,9 +1,9 @@
 "use client"
 // pages/index.tsx
 import Button from '@mui/material/Button';
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-import { useRouter } from 'next/navigation';
 
 
 const Home = () => {
@@ -14,7 +14,14 @@ const Home = () => {
 
   const [currentCapture, setCurrentCapture] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<string>('user');
+  const [status, setStatus] = useState<string>('none');
   const webcamRef = useRef<Webcam>(null);
+
+
+  const resetImage = () => {
+    setUserImage(null);
+    setStatus('reset')
+  };
 
   // Capture the current frame from the webcam
   const capture = () => {
@@ -27,6 +34,8 @@ const Home = () => {
     }
   };
 
+
+
   const handleCaptureClick = (type: string) => {
     setCurrentCapture(type);
     setFacingMode(type === 'selfie' ? 'user' : 'environment');
@@ -34,17 +43,21 @@ const Home = () => {
 
   return (
     <div className='m-4'>
-      <h1 className='text-red-500 text-center text-2xl'>Adicione os seus documentos</h1>
-      <div className='flex gap-2'>
-        <Button className='normal-case' variant='outlined' onClick={() => handleCaptureClick('selfie')}>Tire a selfie Selfie</Button>
-        <button className='border px-1' onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
-        <button className='border px-1' onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
+      <h1 className='text-dark-solid-blue text-center text-2xl'>Passo 1: Tire uma selfie</h1>
+      <div className='flex flex-col gap-2'>
+        <h2>Recomendações</h2>
+        <ul className='list-disc text-justify text-sm pl-4 opacity-90'>
+          <li><span className='underline'>Iluminação adequada</span>: faça a captura em um ambiente bem iluminado, de preferência com luz natural suave.</li>
+          <li><span className='underline'>Ambiente Limpo e Fundo Neutro</span>: idealmente, o fundo deve ser liso e de cor clara para garantir que o rosto da pessoa se destaque. </li>
+          <li><span className='underline'>Expressão Facial e Posição</span>: apresente uma expressão neutra e relaxada, sem sorrir exageradamente. Os olhos devem estar bem abertos e direcionados para a câmera.</li>
+          <li><span className='underline'>Rosto Visível e Claro</span>: não deve usar óculos de sol ou qualquer acessório que cubra os olhos.Evite cobrir a cabeça, a menos que seja por motivos religiosos</li>
+        </ul>
+        <Button className='normal-case text-dark-solid-blue' variant='outlined' onClick={() => handleCaptureClick('selfie')}>Tirar selfie</Button>
       </div>
-      <h3>Tire uma foto da sua cara</h3>
       <div className='flex justify-center mt-10'>
         {currentCapture && (
           <div className='flex justify-center flex-col gap-4'>
-            <div className={`h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300  ${facingMode === "user" ? "rounded-full flex items-center justify-center" : ""}`}>
+            <div className={`h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300`}>
               <Webcam
                 className='h-full w-full object-cover'
                 audio={false}
@@ -55,55 +68,40 @@ const Home = () => {
                 videoConstraints={{ facingMode }}
               />
             </div>
-            <Button variant='outlined' onClick={capture}>Estou pronto (Cheeseeee!)</Button>
+            <Button className='bg-dark-solid-blue text-white normal-case' variant='outlined' onClick={capture}>Estou pronto (Cheeseeee!)</Button>
           </div>
         )}
       </div>
-      {/* {currentCapture && (
-        
-      )} */}
       {
-        userImage && (
-          <div className='text-center flex flex-col justify-center items-center border gap-4'>
+        userImage ? (
+          <div className='text-center flex flex-col justify-center items-center gap-4'>
             <h3>Deseja tirar outra foto?</h3>
-            <div className='h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300'>
-              {userImage && <img src={userImage} alt="User selfie" />}
-
+            <div className='h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300 '>
+              {userImage && <img className='object-cover w-full h-full' src={userImage} alt="User selfie" />}
             </div>
-
-            {/* {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-            {idBackImage && <img src={idBackImage} alt="ID Back" />} */}
-            <Button className='w-full bg-slate-800' variant='contained' onClick={ () => router.push("/id-document") }>Não</Button>
+            <Button className='w-full bg-slate-800' variant='contained' onClick={() => router.push("/id-document")}>Não</Button>
             {/* lassName='w-full bg-slate-800' variant='contained' onClick={() => router.push('/document-submission')}>Não</Button> */}
-            <Button className='w-full text-slate-800 hover:bg-blue-600' variant='outlined'>Sim</Button>
+            <Button className='w-full text-slate-800 hover:bg-blue-600' onClick={resetImage} variant='outlined'>Sim</Button>
           </div>
 
+        ) : (
+          <div className={`${status === 'reset' ? 'flex' : 'hidden  '} flex justify-center items-center flex-col gap-4`}>
+            <div className={`h-80 w-80 rounded-full overflow-hidden border-4 border-gray-300`}>
+              <Webcam
+                className='h-full w-full object-cover'
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/png"
+                mirrored={facingMode === 'user'}
+
+                videoConstraints={{ facingMode }}
+              />
+            </div>
+            <Button className='bg-dark-solid-blue text-white normal-case' variant='outlined' onClick={capture}>Estou pronto (Cheeseeee!)</Button>
+          </div>
         )
       }
-
-      <div>
-        <h3>Captured Images:</h3>
-        {userImage && <img src={userImage} alt="User selfie" />}
-      </div>
-
     </div>
-    // <div>
-    //   <h1 className='text-red-500'>Upload Your Documents</h1>
-    //   <button onClick={() => handleCaptureClick('selfie')}>Take Selfie</button>
-    //   <button onClick={() => handleCaptureClick('id-front')}>Capture ID Front</button>
-    //   <button onClick={() => handleCaptureClick('id-back')}>Capture ID Back</button>
-
-    //   {/* Webcam Capture Section */}
-
-
-    //   {/* Display Captured Images */}
-    //   <div>
-    //     <h3>Captured Images:</h3>
-    //     {userImage && <img src={userImage} alt="User selfie" />}
-    //     {idFrontImage && <img src={idFrontImage} alt="ID Front" />}
-    //     {idBackImage && <img src={idBackImage} alt="ID Back" />}
-    //   </div>
-    // </div>
   );
 };
 
